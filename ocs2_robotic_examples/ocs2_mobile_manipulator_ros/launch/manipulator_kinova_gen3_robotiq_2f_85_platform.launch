@@ -1,0 +1,26 @@
+<launch>
+      <!-- Enable rviz visualization -->
+      <arg name="rviz"        default="true" />
+      <!-- Set nodes on debug mode -->
+      <arg name="debug"       default="false" />
+      
+      <!-- The URDF model of the robot -->
+      <arg name="urdfFile"    value="$(find ocs2_robotic_assets)/resources/mobile_manipulator/kortex/urdf/gen3_robotiq_2f_85_platform.urdf" />
+      <!-- The task file for the mpc. -->
+      <arg name="taskFile"    value="$(find ocs2_mobile_manipulator)/config/kortex/task_gen3_robotiq_2f_85_platform.info" />
+      <!-- The library folder to generate CppAD codegen into -->
+      <arg name="libFolder"   value="$(find ocs2_mobile_manipulator)/auto_generated/kortex/gen3_robotiq_2f_85_platform" />
+      
+      <include file="$(find ocs2_mobile_manipulator_ros)/launch/include/mobile_manipulator.launch">
+            <arg name="rviz"        value="$(arg rviz)" />
+            <arg name="debug"       value="$(arg debug)" />
+            <arg name="urdfFile"    value="$(arg urdfFile)" />
+            <arg name="taskFile"    value="$(arg taskFile)" />
+            <arg name="libFolder"   value="$(arg libFolder)" />
+      </include>
+
+      <!-- <node type="listener.py" name="listener" pkg="ocs2_mobile_manipulator_ros" output="screen" /> -->
+      <!-- <node type="pose_publisher.py" name="pose_publisher" pkg="ocs2_mobile_manipulator_ros" output="screen" /> -->
+      <!-- <node type="joint_velocity_publisher.py" name="joint_velocity_publisher" pkg="ocs2_mobile_manipulator_ros" output="screen" /> -->
+
+</launch>
