@@ -84,11 +84,10 @@ add_library(${PROJECT_NAME}
   src/MobileManipulatorPreComputation.cpp
   src/MobileManipulatorPinocchioMapping.cpp
   src/constraint/EndEffectorConstraint.cpp
-  src/constraint/NoSlipConstraint.cpp
-  src/dynamics/WheelBasedMobileManipulatorDynamics.cpp
+  src/constraint/NoSlipConstraintCppAd.cpp
+  src/dynamics/WheelBasedMobileManipulatorV1Dynamics.cpp
+  src/dynamics/WheelBasedMobileManipulatorV2Dynamics.cpp
   src/dynamics/DefaultManipulatorDynamics.cpp
-  src/dynamics/FloatingArmManipulatorDynamics.cpp
-  src/dynamics/FullyActuatedFloatingArmManipulatorDynamics.cpp
   src/MobileManipulatorInterface.cpp
 )
 add_dependencies(${PROJECT_NAME}

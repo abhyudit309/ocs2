@@ -29,31 +29,47 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #pragma once
 
-#include <memory>
+#include <ocs2_core/dynamics/SystemDynamicsBaseAD.h>
+#include <ocs2_pinocchio_interface/PinocchioInterface.h>
 
-#include <ocs2_core/constraint/StateInputConstraint.h>
-#include <ocs2_oc/synchronized_module/ReferenceManager.h>
+#include "ocs2_mobile_manipulator/ManipulatorModelInfo.h"
 
 namespace ocs2 {
 namespace mobile_manipulator {
 
-class NoSlipConstraint final : public StateInputConstraint {
+/**
+ * Implementation of a wheel-based mobile manipulator.
+ *
+ * The wheel-based manipulator is simulated 2D-bicycle model for the base. The state
+ * of the robot is: (base x, base y, base yaw, arm joints).
+ *
+ * The robot is assumed to be velocity controlled with the base commands as the forward
+ * velocity and the angular velocity around z.
+ */
+class WheelBasedMobileManipulatorV2Dynamics final : public SystemDynamicsBaseAD {
  public:
-  using vector3_t = Eigen::Matrix<scalar_t, 3, 1>;
-  using quaternion_t = Eigen::Quaternion<scalar_t>;
+  /**
+   * Constructor
+   *
+   * @param [in] modelInfo : The manipulator information.
+   * @param [in] modelName : name of the generate model library
+   * @param [in] modelFolder : folder to save the model library files to
+   * @param [in] recompileLibraries : If true, always compile the model library, else try to load existing library if available.
+   * @param [in] verbose : Display information.
+   */
+  WheelBasedMobileManipulatorV2Dynamics(ManipulatorModelInfo modelInfo, const std::string& modelName,
+                                      const std::string& modelFolder = "/tmp/ocs2", bool recompileLibraries = true, bool verbose = true);
 
-  NoSlipConstraint(const ReferenceManager& referenceManager);
-  ~NoSlipConstraint() override = default;
-  NoSlipConstraint* clone() const override { return new NoSlipConstraint(*referenceManagerPtr_); }
-
-  size_t getNumConstraints(scalar_t time) const override;
-  vector_t getValue(scalar_t time, const vector_t& state, const vector_t& input, const PreComputation& preComp) const override;
+  ~WheelBasedMobileManipulatorV2Dynamics() override = default;
+  WheelBasedMobileManipulatorV2Dynamics* clone() const override { return new WheelBasedMobileManipulatorV2Dynamics(*this); }
 
  private:
-  NoSlipConstraint(const NoSlipConstraint& other) = default;
+  WheelBasedMobileManipulatorV2Dynamics(const WheelBasedMobileManipulatorV2Dynamics& rhs) = default;
 
-  /** Cached pointer to the pinocchio end effector kinematics. Is set to nullptr if not used. */
-  const ReferenceManager* referenceManagerPtr_;
+  ad_vector_t systemFlowMap(ad_scalar_t time, const ad_vector_t& state, const ad_vector_t& input,
+                            const ad_vector_t& /*parameters*/) const override;
+
+  const ManipulatorModelInfo info_;
 };
 
 }  // namespace mobile_manipulator

@@ -1,19 +1,27 @@
 ; robot model meta-information
 model_information {
-  manipulatorModelType     1      // 0: Default-arm, 1: Wheel-based manipulator, 2: Floating-arm manipulator
+  manipulatorModelType     1      // 0: Default-arm, 1: Wheel-based manipulator version1, 2: Wheel-based manipulator version2
   
   ; motion joints in the URDF to consider fixed
   removeJoints {
-    [0] "finger_joint"
-    [1] "left_inner_knuckle_joint"
-    [2] "left_inner_finger_joint"
-    [3] "right_outer_knuckle_joint"
-    [4] "right_inner_knuckle_joint"
-    [5] "right_inner_finger_joint"
+    [0] "base_joint_1"
+    [1] "base_joint_2"
+    [2] "base_joint_3"
+    [3] "base_joint_4"
+    [4] "base_joint_5"
+    [5] "base_joint_6"
+    [6] "base_joint_7"
+    [7] "base_joint_8"
+    [8] "finger_joint"
+    [9] "left_inner_knuckle_joint"
+    [10] "left_inner_finger_joint"
+    [11] "right_outer_knuckle_joint"
+    [12] "right_inner_knuckle_joint"
+    [13] "right_inner_finger_joint"
   }
 
   ; base frame of the robot (from URDF)
-  baseFrame                     "mobile_base_link"
+  baseFrame                     "root"
   ; end-effector frame of the robot (from URDF)
   eeFrame                       "tool_frame"
 }
@@ -135,32 +143,27 @@ initialState
     defaultManipulator
     {
     }
-
-    floatingArmManipulator
-    {
-      (0,0)  0.0  ; position x
-      (1,0)  0.0  ; position y
-      (2,0)  0.0  ; position z
-      (3,0)  0.0  ; euler angle z
-      (4,0)  0.0  ; euler angle y
-      (5,0)  0.0  ; euler angle x
-    }
-
-    fullyActuatedFloatingArmManipulator
-    {
-      (0,0)  0.0  ; position x
-      (1,0)  0.0  ; position y
-      (2,0)  0.0  ; position z
-      (3,0)  0.0  ; euler angle z
-      (4,0)  0.0  ; euler angle y
-      (5,0)  0.0  ; euler angle x
-    }
-
-    wheelBasedMobileManipulator
+    
+    wheelBasedMobileManipulatorV1
     {
       (0,0)  0.0  ; position x
       (1,0)  0.0  ; position y
       (2,0)  0.0  ; heading
+    }
+
+    wheelBasedMobileManipulatorV2
+    {
+      (0,0)  0.0  ; position x
+      (1,0)  0.0  ; position y
+      (2,0)  0.0  ; heading
+      (3,0)  0.0  ; p1
+      (4,0)  0.0  ; p2
+      (5,0)  0.0  ; q1
+      (6,0)  0.0  ; q2
+      (7,0)  0.0  ; r1
+      (8,0)  0.0  ; r2
+      (9,0)  0.0  ; s1
+      (10,0) 0.0  ; s2
     }
   }
 
@@ -220,29 +223,30 @@ inputCost
       defaultManipulator
       {
       }
-
-      floatingArmManipulator
-      {
-      }
-
-      fullyActuatedFloatingArmManipulator
+      
+      wheelBasedMobileManipulatorV1
       {
         scaling 1e-2
 
-        (0,0)  5.0  ; position x
-        (1,1)  5.0  ; position y
-        (2,2)  5.0  ; position z
-        (3,3)  5.0  ; euler angle z
-        (4,4)  5.0  ; euler angle y
-        (5,5)  5.0  ; euler angle x
-      }
-
-      wheelBasedMobileManipulator
-      {
-        scaling 1e-2
-
-        (0,0)  5.0  ; forward velocity
+        (0,0)  5.0  ; linear velocity
         (1,1)  5.0  ; turning velocity
+      }
+
+      wheelBasedMobileManipulatorV2
+      {
+        scaling 1e-2
+
+        (0,0)  5.0  ; xdot
+        (1,1)  5.0  ; ydot
+        (2,2)  5.0  ; turning velocity
+        (3,3)  5.0  ; p1_dot
+        (4,4)  5.0  ; p2_dot
+        (5,5)  5.0  ; q1_dot
+        (6,6)  5.0  ; q2_dot
+        (7,7)  5.0  ; r1_dot
+        (8,8)  5.0  ; r2_dot
+        (9,9)  5.0  ; s1_dot
+        (10,10) 5.0  ; s2_dot
       }
     }
 
@@ -277,7 +281,7 @@ finalEndEffector
 
 quadraticPenalty
 {
-  wheelRolling 1000
+  noSlip 1000
 }
 
 selfCollision
@@ -317,25 +321,23 @@ jointAccelerationLimits
       defaultManipulator
       {
       }
-
-      floatingArmManipulator
+      
+      wheelBasedMobileManipulatorV1
       {
-      }
-
-      fullyActuatedFloatingArmManipulator
-      {
-        (0,0)  -0.1  ; linear acceleration x
-        (1,0)  -0.1  ; linear acceleration y
-        (2,0)  -0.1  ; linear acceleration z
-        (3,0)  -0.3  ; euler angle acceleration z
-        (4,0)  -0.3  ; euler angle acceleration y
-        (5,0)  -0.3  ; euler angle acceleration x
-      }
-
-      wheelBasedMobileManipulator
-      {
-        (0,0)  -0.1 ; forward velocity
+        (0,0)  -0.3 ; linear velocity
         (1,0)  -0.3 ; turning velocity
+      }     
+
+      wheelBasedMobileManipulatorV2
+      {
+        (0,0)  -10.0  ; p1_dot
+        (1,0)  -10.0  ; p2_dot
+        (2,0)  -10.0  ; q1_dot
+        (3,0)  -10.0  ; q2_dot
+        (4,0)  -10.0  ; r1_dot
+        (5,0)  -10.0  ; r2_dot
+        (6,0)  -10.0  ; s1_dot
+        (7,0)  -10.0  ; s2_dot
       }
     }
 
@@ -360,25 +362,23 @@ jointAccelerationLimits
       defaultManipulator
       {
       }
-
-      floatingArmManipulator
+      
+      wheelBasedMobileManipulatorV1
       {
-      }
-
-      fullyActuatedFloatingArmManipulator
-      {
-        (0,0)  0.1  ; linear acceleration x
-        (1,0)  0.1  ; linear acceleration y
-        (2,0)  0.1  ; linear acceleration z
-        (3,0)  0.3  ; euler angle acceleration z
-        (4,0)  0.3  ; euler angle acceleration y
-        (5,0)  0.3  ; euler angle acceleration x
-      }
-
-      wheelBasedMobileManipulator
-      {
-        (0,0)  0.1 ; forward velocity
+        (0,0)  0.3 ; linear velocity
         (1,0)  0.3 ; turning velocity
+      }
+
+      wheelBasedMobileManipulatorV2
+      {
+        (0,0)  10.0  ; p1_dot
+        (1,0)  10.0  ; p2_dot
+        (2,0)  10.0  ; q1_dot
+        (3,0)  10.0  ; q2_dot
+        (4,0)  10.0  ; r1_dot
+        (5,0)  10.0  ; r2_dot
+        (6,0)  10.0  ; s1_dot
+        (7,0)  10.0  ; s2_dot
       }
     }
 

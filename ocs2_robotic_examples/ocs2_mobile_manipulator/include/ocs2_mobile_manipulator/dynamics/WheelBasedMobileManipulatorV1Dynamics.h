@@ -30,22 +30,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #pragma once
 
 #include <ocs2_core/dynamics/SystemDynamicsBaseAD.h>
-
-#include <ocs2_mobile_manipulator/ManipulatorModelInfo.h>
 #include <ocs2_pinocchio_interface/PinocchioInterface.h>
+
+#include "ocs2_mobile_manipulator/ManipulatorModelInfo.h"
 
 namespace ocs2 {
 namespace mobile_manipulator {
 
 /**
- * Implementation of a fixed arm manipulator dynamics.
+ * Implementation of a wheel-based mobile manipulator.
  *
- * The fixed-arm manipulator has the state: (6-DOF base pose, arm joints).
- * The base orientation is represented using quaternion orientation.
- * The end-effector targets are assumed to given with respect to the world frame.
- * The arm is assumed to be velocity controlled.
+ * The wheel-based manipulator is simulated 2D-bicycle model for the base. The state
+ * of the robot is: (base x, base y, base yaw, arm joints).
+ *
+ * The robot is assumed to be velocity controlled with the base commands as the forward
+ * velocity and the angular velocity around z.
  */
-class FloatingArmManipulatorDynamics final : public SystemDynamicsBaseAD {
+class WheelBasedMobileManipulatorV1Dynamics final : public SystemDynamicsBaseAD {
  public:
   /**
    * Constructor
@@ -56,17 +57,19 @@ class FloatingArmManipulatorDynamics final : public SystemDynamicsBaseAD {
    * @param [in] recompileLibraries : If true, always compile the model library, else try to load existing library if available.
    * @param [in] verbose : Display information.
    */
-  FloatingArmManipulatorDynamics(const ManipulatorModelInfo& modelInfo, const std::string& modelName,
-                                 const std::string& modelFolder = "/tmp/ocs2", bool recompileLibraries = true, bool verbose = true);
+  WheelBasedMobileManipulatorV1Dynamics(ManipulatorModelInfo modelInfo, const std::string& modelName,
+                                      const std::string& modelFolder = "/tmp/ocs2", bool recompileLibraries = true, bool verbose = true);
 
-  ~FloatingArmManipulatorDynamics() override = default;
-  FloatingArmManipulatorDynamics* clone() const override { return new FloatingArmManipulatorDynamics(*this); }
+  ~WheelBasedMobileManipulatorV1Dynamics() override = default;
+  WheelBasedMobileManipulatorV1Dynamics* clone() const override { return new WheelBasedMobileManipulatorV1Dynamics(*this); }
 
  private:
-  FloatingArmManipulatorDynamics(const FloatingArmManipulatorDynamics& rhs) = default;
+  WheelBasedMobileManipulatorV1Dynamics(const WheelBasedMobileManipulatorV1Dynamics& rhs) = default;
 
   ad_vector_t systemFlowMap(ad_scalar_t time, const ad_vector_t& state, const ad_vector_t& input,
                             const ad_vector_t& /*parameters*/) const override;
+
+  const ManipulatorModelInfo info_;
 };
 
 }  // namespace mobile_manipulator

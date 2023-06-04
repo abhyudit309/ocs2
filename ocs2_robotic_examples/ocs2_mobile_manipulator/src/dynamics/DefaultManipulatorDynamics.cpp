@@ -46,12 +46,11 @@ DefaultManipulatorDynamics::DefaultManipulatorDynamics(const ManipulatorModelInf
 /******************************************************************************************************/
 ad_vector_t DefaultManipulatorDynamics::systemFlowMap(ad_scalar_t time, const ad_vector_t& state, const ad_vector_t& input,
                                                       const ad_vector_t&) const {
+  ad_vector_t stateDerivative(state.size());
+  const auto arm_dof = state.size()/2;
 
-  ad_vector_t stateDerivative(state.rows());
-  auto dof = state.rows()/2;
-
-  stateDerivative.head(dof) = state.tail(dof);
-  stateDerivative.tail(dof) = input;
+  stateDerivative.head(arm_dof) = state.tail(arm_dof);
+  stateDerivative.tail(arm_dof) = input;
 
   return stateDerivative;
 }

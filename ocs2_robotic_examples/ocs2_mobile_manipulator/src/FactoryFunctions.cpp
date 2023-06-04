@@ -51,23 +51,16 @@ PinocchioInterface createPinocchioInterface(const std::string& robotUrdfPath, co
       // return pinocchio interface
       return getPinocchioInterfaceFromUrdfFile(robotUrdfPath);
     }
-    case ManipulatorModelType::FloatingArmManipulator: {
-      // add 6 DoF for the floating base
-      pinocchio::JointModelComposite jointComposite(2);
-      jointComposite.addJoint(pinocchio::JointModelTranslation());
-      jointComposite.addJoint(pinocchio::JointModelSphericalZYX());
+    case ManipulatorModelType::WheelBasedMobileManipulatorV1: {
+      // add XY-yaw joint for the wheel-base
+      pinocchio::JointModelComposite jointComposite(3);
+      jointComposite.addJoint(pinocchio::JointModelPX());
+      jointComposite.addJoint(pinocchio::JointModelPY());
+      jointComposite.addJoint(pinocchio::JointModelRZ());
       // return pinocchio interface
       return getPinocchioInterfaceFromUrdfFile(robotUrdfPath, jointComposite);
     }
-    case ManipulatorModelType::FullyActuatedFloatingArmManipulator: {
-      // add 6 DOF for the fully-actuated free-floating base
-      pinocchio::JointModelComposite jointComposite(2);
-      jointComposite.addJoint(pinocchio::JointModelTranslation());
-      jointComposite.addJoint(pinocchio::JointModelSphericalZYX());
-      // return pinocchio interface
-      return getPinocchioInterfaceFromUrdfFile(robotUrdfPath, jointComposite);
-    }
-    case ManipulatorModelType::WheelBasedMobileManipulator: {
+    case ManipulatorModelType::WheelBasedMobileManipulatorV2: {
       // add XY-yaw joint for the wheel-base
       pinocchio::JointModelComposite jointComposite(3);
       jointComposite.addJoint(pinocchio::JointModelPX());
@@ -103,23 +96,16 @@ PinocchioInterface createPinocchioInterface(const std::string& robotUrdfPath, co
       // return pinocchio interface
       return getPinocchioInterfaceFromUrdfModel(newModel);
     }
-    case ManipulatorModelType::FloatingArmManipulator: {
-      // add 6 DoF for the floating base
-      pinocchio::JointModelComposite jointComposite(2);
-      jointComposite.addJoint(pinocchio::JointModelTranslation());
-      jointComposite.addJoint(pinocchio::JointModelSphericalZYX());
+    case ManipulatorModelType::WheelBasedMobileManipulatorV1: {
+      // add XY-yaw joint for the wheel-base
+      pinocchio::JointModelComposite jointComposite(3);
+      jointComposite.addJoint(pinocchio::JointModelPX());
+      jointComposite.addJoint(pinocchio::JointModelPY());
+      jointComposite.addJoint(pinocchio::JointModelRZ());
       // return pinocchio interface
       return getPinocchioInterfaceFromUrdfModel(newModel, jointComposite);
     }
-    case ManipulatorModelType::FullyActuatedFloatingArmManipulator: {
-      // add 6 DOF for the free-floating base
-      pinocchio::JointModelComposite jointComposite(2);
-      jointComposite.addJoint(pinocchio::JointModelTranslation());
-      jointComposite.addJoint(pinocchio::JointModelSphericalZYX());
-      // return pinocchio interface
-      return getPinocchioInterfaceFromUrdfFile(robotUrdfPath, jointComposite);
-    }
-    case ManipulatorModelType::WheelBasedMobileManipulator: {
+    case ManipulatorModelType::WheelBasedMobileManipulatorV2: {
       // add XY-yaw joint for the wheel-base
       pinocchio::JointModelComposite jointComposite(3);
       jointComposite.addJoint(pinocchio::JointModelPX());
@@ -142,33 +128,27 @@ ManipulatorModelInfo createManipulatorModelInfo(const PinocchioInterface& interf
 
   ManipulatorModelInfo info;
   info.manipulatorModelType = type;
-  // info.stateDim = 2*model.nq;
   // resolve for actuated dof based on type of robot
   switch (type) {
     case ManipulatorModelType::DefaultManipulator: {
       // for default arm, the state dimension and input dimensions are same.
       info.stateDim = 2*model.nq;
-      info.inputDim = info.stateDim/2;
-      info.armDim = info.stateDim;
+      info.inputDim = model.nq;
+      info.armDim = 2*model.nq;
       break;
     }
-    case ManipulatorModelType::FloatingArmManipulator: {
-      // remove the static 6-DOF base joints that are unactuated.
-      info.inputDim = info.stateDim - 6;
-      info.armDim = info.inputDim;
-      break;
-    }
-    case ManipulatorModelType::FullyActuatedFloatingArmManipulator: {
-      // all states are actuatable
-      info.inputDim = info.stateDim;
-      info.armDim = info.inputDim - 6;
-      break;
-    }
-    case ManipulatorModelType::WheelBasedMobileManipulator: {
+    case ManipulatorModelType::WheelBasedMobileManipulatorV1: {
       // for wheel-based, the input dimension is (v, omega, dq_j) while state dimension is (x, y, psi, q_j).
       info.stateDim = 2*(model.nq - 3) + 3;
       info.inputDim = (model.nq - 3) + 2;
       info.armDim = 2*(model.nq - 3);
+      break;
+    }
+    case ManipulatorModelType::WheelBasedMobileManipulatorV2: {
+      // for wheel-based, the input dimension is (v, omega, dq_j) while state dimension is (x, y, psi, q_j).
+      info.stateDim = 2*(model.nq - 11) + 11;
+      info.inputDim = (model.nq - 11) + 11;
+      info.armDim = 2*(model.nq - 11);
       break;
     }
     default:
@@ -180,7 +160,21 @@ ManipulatorModelInfo createManipulatorModelInfo(const PinocchioInterface& interf
   info.baseFrame = baseFrame;
   // get name of arm joints.
   const auto& jointNames = model.names;
-  info.dofNames = std::vector<std::string>(jointNames.end() - info.armDim/2, jointNames.end());
+
+  switch (type) {
+    case ManipulatorModelType::DefaultManipulator: {
+      info.dofNames = std::vector<std::string>(jointNames.end() - model.nq, jointNames.end());
+      break;
+    }
+    case ManipulatorModelType::WheelBasedMobileManipulatorV1: {
+      info.dofNames = std::vector<std::string>(jointNames.end() - (model.nq - 3), jointNames.end());
+      break;
+    }
+    case ManipulatorModelType::WheelBasedMobileManipulatorV2: {
+      info.dofNames = std::vector<std::string>(jointNames.end() - (model.nq - 3), jointNames.end());
+      break;
+    }
+  }
 
   return info;
 }

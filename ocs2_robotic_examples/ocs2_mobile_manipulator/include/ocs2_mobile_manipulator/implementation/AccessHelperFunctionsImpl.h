@@ -45,15 +45,11 @@ Eigen::Matrix<SCALAR, 3, 1> getBasePosition(const Eigen::Matrix<SCALAR, -1, 1>& 
       // for default arm, we assume robot is at identity pose
       return Eigen::Matrix<SCALAR, 3, 1>::Zero();
     }
-    case ManipulatorModelType::FloatingArmManipulator: {
-      // for floating arm, the first three entries correspond to base position
-      return state.head(3);
+    case ManipulatorModelType::WheelBasedMobileManipulatorV1: {
+      // for wheel-based, we assume 2D base position
+      return Eigen::Matrix<SCALAR, 3, 1>(state(0), state(1), 0.0);
     }
-    case ManipulatorModelType::FullyActuatedFloatingArmManipulator: {
-      // for floating arm, the first three entries correspond to base position
-      return state.head(3);
-    }
-    case ManipulatorModelType::WheelBasedMobileManipulator: {
+    case ManipulatorModelType::WheelBasedMobileManipulatorV2: {
       // for wheel-based, we assume 2D base position
       return Eigen::Matrix<SCALAR, 3, 1>(state(0), state(1), 0.0);
     }
@@ -75,15 +71,11 @@ Eigen::Quaternion<SCALAR> getBaseOrientation(const Eigen::Matrix<SCALAR, -1, 1>&
       // for default arm, we assume robot is at identity pose
       return Eigen::Quaternion<SCALAR>::Identity();
     }
-    case ManipulatorModelType::FloatingArmManipulator: {
-      // for floating arm, the base orientation is given by ZYX joints
-      return ::ocs2::getQuaternionFromEulerAnglesZyx<SCALAR>(state.segment(3, 3));
+    case ManipulatorModelType::WheelBasedMobileManipulatorV1: {
+      // for wheel-based, we assume only yaw
+      return Eigen::Quaternion<SCALAR>(Eigen::AngleAxis<SCALAR>(state(2), Eigen::Matrix<SCALAR, 3, 1>::UnitZ()));
     }
-    case ManipulatorModelType::FullyActuatedFloatingArmManipulator: {
-      // for floating arm, the base orientation is given by ZYX joints
-      return ::ocs2::getQuaternionFromEulerAnglesZyx<SCALAR>(state.segment(3, 3));
-    }
-    case ManipulatorModelType::WheelBasedMobileManipulator: {
+    case ManipulatorModelType::WheelBasedMobileManipulatorV2: {
       // for wheel-based, we assume only yaw
       return Eigen::Quaternion<SCALAR>(Eigen::AngleAxis<SCALAR>(state(2), Eigen::Matrix<SCALAR, 3, 1>::UnitZ()));
     }
@@ -100,7 +92,14 @@ Eigen::Block<Derived, -1, 1> getArmJointAngles(Eigen::MatrixBase<Derived>& state
   assert(state.rows() == info.stateDim);
   assert(state.cols() == 1);
   const size_t startRow = info.stateDim - info.armDim;
-  return Eigen::Block<Derived, -1, 1>(state.derived(), startRow, 0, info.armDim, 1);
+  if (startRow > 0) {
+    // wheeled case
+    return Eigen::Block<Derived, -1, 1>(state.derived(), 3, 0, info.dofNames.size(), 1);
+  }
+  else {
+    // default case
+    return Eigen::Block<Derived, -1, 1>(state.derived(), startRow, 0, info.dofNames.size(), 1);
+  }
 }
 
 template <typename Derived>
@@ -109,7 +108,14 @@ const Eigen::Block<const Derived, -1, 1> getArmJointAngles(const Eigen::MatrixBa
   assert(state.cols() == 1);
   // resolve for arm dof start index
   const size_t startRow = info.stateDim - info.armDim;
-  return Eigen::Block<const Derived, -1, 1>(state.derived(), startRow, 0, info.armDim, 1);
+  if (startRow > 0) {
+    // wheeled case
+    return Eigen::Block<const Derived, -1, 1>(state.derived(), 3, 0, info.dofNames.size(), 1);
+  }
+  else {
+    // default case
+    return Eigen::Block<const Derived, -1, 1>(state.derived(), startRow, 0, info.dofNames.size(), 1);
+  }
 }
 
 }  // namespace mobile_manipulator
