@@ -58,6 +58,7 @@ def callback(data):
 	c8 = y_dot - l*theta_dot*np.sin(theta) - d*theta_dot*np.cos(theta) + a*s2_dot*np.cos(s1 + theta);
 
 	constraint = [c1, c2, c3, c4, c5, c6, c7, c8]
+	print("state", data.state.value)
 	#print(constraint)
 	# if data.time > 0:
 	# 	if np.linalg.norm(np.array(data.input.value)) > 0.01:

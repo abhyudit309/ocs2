@@ -79,7 +79,7 @@ visualization_msgs::InteractiveMarker TargetTrajectoriesInteractiveMarker::creat
   interactiveMarker.description = "Right click to send command";
   interactiveMarker.pose.position.x = 0.12954;
   interactiveMarker.pose.position.y = 0.00135;
-  interactiveMarker.pose.position.z = 0.20857;
+  interactiveMarker.pose.position.z = 0.54357; //0.20857;
   // retract pose quaternions
   tf2::Quaternion quat;
   quat.setRPY(176.128*M_PI/180.0, 0.0, M_PI/2.0);

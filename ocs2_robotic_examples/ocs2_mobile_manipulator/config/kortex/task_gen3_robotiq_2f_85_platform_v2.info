@@ -236,17 +236,17 @@ inputCost
       {
         scaling 1e-2
 
-        (0,0)  5.0  ; xdot
-        (1,1)  5.0  ; ydot
-        (2,2)  5.0  ; turning velocity
-        (3,3)  5.0  ; p1_dot
-        (4,4)  5.0  ; p2_dot
-        (5,5)  5.0  ; q1_dot
-        (6,6)  5.0  ; q2_dot
-        (7,7)  5.0  ; r1_dot
-        (8,8)  5.0  ; r2_dot
-        (9,9)  5.0  ; s1_dot
-        (10,10) 5.0  ; s2_dot
+        (0,0)  1.0  ; xdot
+        (1,1)  1.0  ; ydot
+        (2,2)  1.0  ; turning velocity
+        (3,3)  1.0  ; p1_dot
+        (4,4)  1.0  ; p2_dot
+        (5,5)  1.0  ; q1_dot
+        (6,6)  1.0  ; q2_dot
+        (7,7)  1.0  ; r1_dot
+        (8,8)  1.0  ; r2_dot
+        (9,9)  1.0  ; s1_dot
+        (10,10) 1.0  ; s2_dot
       }
     }
 
