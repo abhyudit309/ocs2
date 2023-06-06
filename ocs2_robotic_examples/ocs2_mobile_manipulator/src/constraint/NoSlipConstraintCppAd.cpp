@@ -22,9 +22,11 @@ ad_vector_t NoSlipConstraintCppAd::constraintFunction(ad_scalar_t time, const ad
                                                             const ad_vector_t& parameters) const {
   ad_vector_t constraint = Eigen::Matrix<ad_scalar_t, 8, 1>::Zero();
   // geometrical parameters:
-  const double a = 0.055;
-  const double l = 0.11;
-  const double d = 0.11;
+  const double a = 0.05539;
+  const double l = 0.13;
+  const double d = 0.1325;
+  const double wx = 0.005;
+  const double wz = 0.017114;
   // extract parameters from state and input vector
   // from state:
   auto theta = state(2);
@@ -48,30 +50,19 @@ ad_vector_t NoSlipConstraintCppAd::constraintFunction(ad_scalar_t time, const ad
   auto r2_dot = input(8);
   auto s1_dot = input(9);
   auto s2_dot = input(10);
+
   // set up constraints:
-  // ad_scalar_t c1 = cos(p2)*(a*p2_dot + d*theta_dot*cos(p1) - y_dot*sin(p1 + theta) - x_dot*cos(p1 + theta) - l*theta_dot*sin(p1));
-  // ad_scalar_t c2 = y_dot*cos(p1 + theta) + d*theta_dot*sin(p1) + l*theta_dot*cos(p1) - x_dot*sin(p1 + theta);
+  ad_scalar_t c1 = x_dot + l*theta_dot*cos(theta) - d*theta_dot*sin(theta) - a*p2_dot*sin(p1 + theta) - wx*(p1_dot + theta_dot)*sin(p1 + theta) + wz*(p1_dot + theta_dot)*cos(p1 + theta);
+  ad_scalar_t c2 = y_dot + l*theta_dot*sin(theta) + d*theta_dot*cos(theta) + a*p2_dot*cos(p1 + theta) + wx*(p1_dot + theta_dot)*cos(p1 + theta) + wz*(p1_dot + theta_dot)*sin(p1 + theta);
 
-  // ad_scalar_t c3 = cos(q2)*(a*q2_dot - d*theta_dot*cos(q1) - y_dot*sin(q1 + theta) - x_dot*cos(q1 + theta) - l*theta_dot*sin(q1));
-  // ad_scalar_t c4 = y_dot*cos(q1 + theta) - d*theta_dot*sin(q1) + l*theta_dot*cos(q1) - x_dot*sin(q1 + theta);
+  ad_scalar_t c3 = x_dot + l*theta_dot*cos(theta) + d*theta_dot*sin(theta) - a*q2_dot*sin(q1 + theta) + wx*(q1_dot + theta_dot)*sin(q1 + theta) + wz*(q1_dot + theta_dot)*cos(q1 + theta);
+  ad_scalar_t c4 = y_dot + l*theta_dot*sin(theta) - d*theta_dot*cos(theta) + a*q2_dot*cos(q1 + theta) - wx*(q1_dot + theta_dot)*cos(q1 + theta) + wz*(q1_dot + theta_dot)*sin(q1 + theta);
 
-  // ad_scalar_t c5 = cos(r2)*(a*r2_dot + d*theta_dot*cos(r1) - y_dot*sin(r1 + theta) - x_dot*cos(r1 + theta) + l*theta_dot*sin(r1));
-  // ad_scalar_t c6 = y_dot*cos(r1 + theta) + d*theta_dot*sin(r1) - l*theta_dot*cos(r1) - x_dot*sin(r1 + theta);
+  ad_scalar_t c5 = x_dot - l*theta_dot*cos(theta) - d*theta_dot*sin(theta) - a*r2_dot*sin(r1 + theta) - wx*(r1_dot + theta_dot)*sin(r1 + theta) - wz*(r1_dot + theta_dot)*cos(r1 + theta);
+  ad_scalar_t c6 = y_dot - l*theta_dot*sin(theta) + d*theta_dot*cos(theta) + a*r2_dot*cos(r1 + theta) + wx*(r1_dot + theta_dot)*cos(r1 + theta) - wz*(r1_dot + theta_dot)*sin(r1 + theta);
 
-  // ad_scalar_t c7 = cos(s2)*(a*s2_dot - d*theta_dot*cos(s1) - y_dot*sin(s1 + theta) - x_dot*cos(s1 + theta) + l*theta_dot*sin(s1));
-  // ad_scalar_t c8 = y_dot*cos(s1 + theta) - d*theta_dot*sin(s1) - l*theta_dot*cos(s1) - x_dot*sin(s1 + theta);
-
-  ad_scalar_t c1 = x_dot + l*theta_dot*cos(theta) - d*theta_dot*sin(theta) - a*p2_dot*sin(p1 + theta);
-  ad_scalar_t c2 = y_dot + l*theta_dot*sin(theta) + d*theta_dot*cos(theta) + a*p2_dot*cos(p1 + theta);
-
-  ad_scalar_t c3 = x_dot + l*theta_dot*cos(theta) + d*theta_dot*sin(theta) - a*q2_dot*sin(q1 + theta);
-  ad_scalar_t c4 = y_dot + l*theta_dot*sin(theta) - d*theta_dot*cos(theta) + a*q2_dot*cos(q1 + theta);
-
-  ad_scalar_t c5 = x_dot - l*theta_dot*cos(theta) - d*theta_dot*sin(theta) - a*r2_dot*sin(r1 + theta);
-  ad_scalar_t c6 = y_dot - l*theta_dot*sin(theta) + d*theta_dot*cos(theta) + a*r2_dot*cos(r1 + theta);
-
-  ad_scalar_t c7 = x_dot - l*theta_dot*cos(theta) + d*theta_dot*sin(theta) - a*s2_dot*sin(s1 + theta);
-  ad_scalar_t c8 = y_dot - l*theta_dot*sin(theta) - d*theta_dot*cos(theta) + a*s2_dot*cos(s1 + theta);
+  ad_scalar_t c7 = x_dot - l*theta_dot*cos(theta) + d*theta_dot*sin(theta) - a*s2_dot*sin(s1 + theta) + wx*(s1_dot + theta_dot)*sin(s1 + theta) - wz*(s1_dot + theta_dot)*cos(s1 + theta);
+  ad_scalar_t c8 = y_dot - l*theta_dot*sin(theta) - d*theta_dot*cos(theta) + a*s2_dot*cos(s1 + theta) - wx*(s1_dot + theta_dot)*cos(s1 + theta) - wz*(s1_dot + theta_dot)*sin(s1 + theta);
 
   constraint << c1, c2, c3, c4, c5, c6, c7, c8;
   return constraint;
