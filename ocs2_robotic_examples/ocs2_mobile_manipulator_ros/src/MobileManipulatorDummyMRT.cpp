@@ -79,11 +79,11 @@ int main(int argc, char** argv) {
 
   // initial command
   tf2::Quaternion quat;
-  quat.setRPY(M_PI, 0.0, M_PI/2.0);
+  quat.setRPY(M_PI, 0.0, 3*M_PI/2.0);
   quat = quat.normalize();
 
   vector_t initTarget(7);
-  initTarget.head(3) << 0.12954, 0.0, 0.54357; // 0.12954, 0.0, 0.20857; // 1, 0, 1;
+  initTarget.head(3) << -0.12954, 0.0, 0.54357; // 0.12954, 0.0, 0.20857; // 1, 0, 1;
   initTarget.tail(4) << Eigen::Quaternion<scalar_t>(quat.getW(), quat.getX(), quat.getY(), quat.getZ()).coeffs(); // Eigen::Quaternion<scalar_t>(1, 0, 0, 0).coeffs();
   const vector_t zeroInput = vector_t::Zero(interface.getManipulatorModelInfo().inputDim);
   const TargetTrajectories initTargetTrajectories({initObservation.time}, {initTarget}, {zeroInput});

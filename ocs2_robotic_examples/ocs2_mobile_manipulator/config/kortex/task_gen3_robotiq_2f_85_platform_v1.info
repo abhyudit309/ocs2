@@ -170,7 +170,7 @@ initialState
   ; initial state for the arm DOFs
   arm
   {
-    (0,0)   3.14    ; arm_1
+    (0,0)   6.28    ; arm_1
     (1,0)   -0.35   ; arm_2
     (2,0)   3.14    ; arm_3
     (3,0)   -2.55   ; arm_4
