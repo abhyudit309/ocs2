@@ -27,6 +27,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ******************************************************************************/
 
+#include <ocs2_mobile_manipulator/MobileManipulatorInterface.h>
+
 #include "ocs2_ros_interfaces/command/TargetTrajectoriesInteractiveMarker.h"
 
 #include <ocs2_msgs/mpc_observation.h>
@@ -35,6 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <tf2/LinearMath/Quaternion.h>
 
 namespace ocs2 {
+  using namespace mobile_manipulator;
 
 /******************************************************************************************************/
 /******************************************************************************************************/
@@ -71,18 +74,48 @@ TargetTrajectoriesInteractiveMarker::TargetTrajectoriesInteractiveMarker(::ros::
 /******************************************************************************************************/
 /******************************************************************************************************/
 visualization_msgs::InteractiveMarker TargetTrajectoriesInteractiveMarker::createInteractiveMarker() const {
+  // get mobile manipulator interface
+  ros::NodeHandle nodeHandle;
+  std::string taskFile, libFolder, urdfFile;
+  nodeHandle.getParam("/taskFile", taskFile);
+  nodeHandle.getParam("/libFolder", libFolder);
+  nodeHandle.getParam("/urdfFile", urdfFile);
+  // Robot Interface
+  mobile_manipulator::MobileManipulatorInterface interface(taskFile, libFolder, urdfFile);
+  //
   visualization_msgs::InteractiveMarker interactiveMarker;
   interactiveMarker.header.frame_id = "world";
   interactiveMarker.header.stamp = ros::Time::now();
   interactiveMarker.name = "Goal";
   interactiveMarker.scale = 0.2;
   interactiveMarker.description = "Right click to send command";
-  interactiveMarker.pose.position.x = -0.12954;
-  interactiveMarker.pose.position.y = 0.00135;
-  interactiveMarker.pose.position.z = 0.54357; //0.20857;
-  // retract pose quaternions
+  // switch case
   tf2::Quaternion quat;
-  quat.setRPY(M_PI, 0.0, 3*M_PI/2.0);
+  switch (interface.getManipulatorModelInfo().manipulatorModelType) {
+    case ManipulatorModelType::DefaultManipulator: {
+      interactiveMarker.pose.position.x = 0.12954;
+      interactiveMarker.pose.position.y = 0.0;
+      interactiveMarker.pose.position.z = 0.20857;
+      quat.setRPY(M_PI, 0.0, M_PI/2.0);
+      break;
+    }
+    case ManipulatorModelType::WheelBasedMobileManipulatorV1: {
+      interactiveMarker.pose.position.x = -0.12954;
+      interactiveMarker.pose.position.y = 0.0;
+      interactiveMarker.pose.position.z = 0.54357;
+      quat.setRPY(M_PI, 0.0, 3*M_PI/2.0);
+      break;
+    }
+    case ManipulatorModelType::WheelBasedMobileManipulatorV2: {
+      interactiveMarker.pose.position.x = -0.12954;
+      interactiveMarker.pose.position.y = 0.0;
+      interactiveMarker.pose.position.z = 0.54357;
+      quat.setRPY(M_PI, 0.0, 3*M_PI/2.0);
+      break;
+    }
+    default:
+      throw std::invalid_argument("Invalid manipulator model type provided.");
+  }
   quat = quat.normalize();
   // set marker quaternions
   interactiveMarker.pose.orientation.w = quat.getW();

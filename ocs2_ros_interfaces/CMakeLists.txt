@@ -10,6 +10,7 @@ set(CATKIN_PACKAGE_DEPENDENCIES
   visualization_msgs
   geometry_msgs
   interactive_markers
+  ocs2_mobile_manipulator
 )
 
 ## Find catkin macros and libraries
