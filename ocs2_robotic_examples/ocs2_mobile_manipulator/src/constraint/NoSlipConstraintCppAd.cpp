@@ -1,22 +1,15 @@
 #include "ocs2_mobile_manipulator/constraint/NoSlipConstraintCppAd.h"
-#include <pinocchio/algorithm/frames.hxx>
-#include <pinocchio/fwd.hpp>
-#include "pinocchio/multibody/fcl.hpp"
+
 namespace ocs2 {
 namespace mobile_manipulator {
 
-NoSlipConstraintCppAd::NoSlipConstraintCppAd(const PinocchioInterface& pinocchioInterface,
-                                                         const PinocchioStateInputMapping<ad_scalar_t>& mapping, const std::string& prefix,
-                                                         const std::string& libraryFolder, bool recompileLibraries, ManipulatorModelInfo manipulatorModelInfo)
-    : StateInputConstraintCppAd(ConstraintOrder::Linear), mappingPtr_(mapping.clone()), manipulatorModelInfo_(manipulatorModelInfo) {
-  pinocchioInterfacePtr_ = &pinocchioInterface;
-  mappingPtr_->setPinocchioInterface(pinocchioInterfacePtr_->toCppAd());
+NoSlipConstraintCppAd::NoSlipConstraintCppAd(const std::string& prefix, const std::string& libraryFolder, bool recompileLibraries, ManipulatorModelInfo manipulatorModelInfo) 
+  : StateInputConstraintCppAd(ConstraintOrder::Linear), manipulatorModelInfo_(manipulatorModelInfo) {
   initialize(manipulatorModelInfo_.stateDim, manipulatorModelInfo_.inputDim, 0, prefix, libraryFolder, recompileLibraries, true);
 }
 
 NoSlipConstraintCppAd::NoSlipConstraintCppAd(const NoSlipConstraintCppAd& rhs)
-    : StateInputConstraintCppAd(rhs), pinocchioInterfacePtr_(rhs.pinocchioInterfacePtr_), mappingPtr_(rhs.mappingPtr_->clone()), manipulatorModelInfo_(rhs.manipulatorModelInfo_) {}
-
+    : StateInputConstraintCppAd(rhs), manipulatorModelInfo_(rhs.manipulatorModelInfo_) {}
 
 ad_vector_t NoSlipConstraintCppAd::constraintFunction(ad_scalar_t time, const ad_vector_t& state, const ad_vector_t& input,
                                                             const ad_vector_t& parameters) const {
@@ -72,5 +65,5 @@ NoSlipConstraintCppAd* NoSlipConstraintCppAd::clone() const {
   return new NoSlipConstraintCppAd(*this);
 }
 
-}  // namespace swerve
+}  // namespace mobile_manipulator
 }  // namespace ocs2

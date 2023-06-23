@@ -171,7 +171,7 @@ MobileManipulatorInterface::MobileManipulatorInterface(const std::string& taskFi
   // no slip constraint
   if (baseStateDim == 11) {
     std::cout << "No Slip constraint enforced!!" << std::endl;
-    problem_.softConstraintPtr->add("noSlipCost", getQuadraticNoSlipCost(taskFile, *pinocchioInterfacePtr_, "noSlipCost", libraryFolder, true));
+    problem_.softConstraintPtr->add("noSlipCost", getQuadraticNoSlipCost(taskFile, "noSlipCost", libraryFolder, true));
   }
   // joint limits constraint
   problem_.softConstraintPtr->add("jointLimits", getJointLimitSoftConstraint(*pinocchioInterfacePtr_, taskFile));
@@ -266,10 +266,8 @@ std::unique_ptr<StateInputCost> MobileManipulatorInterface::getQuadraticInputCos
 /******************************************************************************************************/
 /******************************************************************************************************/
 /******************************************************************************************************/
-std::unique_ptr<StateInputCost> MobileManipulatorInterface::getQuadraticNoSlipCost(const std::string& taskFile,
-                                                                              const PinocchioInterface& pinocchioInterface,
-                                                                              const std::string& prefix, const std::string& libraryFolder,
-                                                                              bool recompileLibraries) {
+std::unique_ptr<StateInputCost> MobileManipulatorInterface::getQuadraticNoSlipCost(const std::string& taskFile, const std::string& prefix, 
+                                                                                   const std::string& libraryFolder, bool recompileLibraries) {
   scalar_t muWheel = 1.0;
   boost::property_tree::ptree pt;
   boost::property_tree::read_info(taskFile, pt);
@@ -279,9 +277,8 @@ std::unique_ptr<StateInputCost> MobileManipulatorInterface::getQuadraticNoSlipCo
   std::cerr << " #### =============================================================================\n";
 
   std::unique_ptr<StateInputConstraint> constraint;
-  MobileManipulatorPinocchioMappingCppAd pinocchioMapping(manipulatorModelInfo_);
   constraint.reset(
-      new NoSlipConstraintCppAd(pinocchioInterface, pinocchioMapping, prefix, libraryFolder, recompileLibraries, manipulatorModelInfo_));
+      new NoSlipConstraintCppAd(prefix, libraryFolder, recompileLibraries, manipulatorModelInfo_));
   std::vector<std::unique_ptr<PenaltyBase>> penaltyArray(8);
   std::generate_n(penaltyArray.begin(), 8, [&] { return std::unique_ptr<PenaltyBase>(new QuadraticPenalty(muWheel)); });
   return std::unique_ptr<StateInputCost>(new StateInputSoftConstraint(std::move(constraint), std::move(penaltyArray)));
