@@ -1,12 +1,14 @@
 # OCS2 Toolbox
 
 ## Summary
-OCS2 is a C++ toolbox tailored for Optimal Control for Switched Systems (OCS2). The toolbox provides an efficient implementation of the following algorith
+OCS2 is a C++ toolbox tailored for Optimal Control for Switched Systems (OCS2). The toolbox provides an efficient implementation of the following algorithms
 
 * SLQ: Continuous-time domin DDP
 * iLQR: Discrete-time domain DDP
 * SQP: Multiple-shooting algorithm based on HPIPM
 * PISOC: Path integral stochatic optimal control
+
+Here it is used for the control of a 7 DOF Kinova Gen3 arm, and the same arm on a base with 4 caster wheels.
 
 ![manipulator](https://i.imgur.com/d6nmfcN.gif)
 
