@@ -8,9 +8,12 @@ OCS2 is a C++ toolbox tailored for Optimal Control for Switched Systems (OCS2). 
 * SQP: Multiple-shooting algorithm based on HPIPM
 * PISOC: Path integral stochatic optimal control
 
-Here it is used for the control of a 7 DOF Kinova Gen3 arm, and the same arm on a base with 4 caster wheels.
+Here it is used for the control of a 
+(i) Fixed 7 DOF Kinova Gen3 arm with a Robotiq 2F-85 gripper
 
 ![manipulator](https://i.imgur.com/d6nmfcN.gif)
+
+(ii) and the same arm on a base with 4 caster wheels.
 
 ![mobile manipulator](https://i.imgur.com/f6akezz.gif)
 
