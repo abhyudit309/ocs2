@@ -24,7 +24,7 @@ For more information refer to the project's [Documentation Page](https://leggedr
 
 ## Setup
 
-1. Install all prerequisites for OCS2 by following the instructions [here](https://leggedrobotics.github.io/ocs2/installation.html)
+1. Install all prerequisites for OCS2 by following the instructions [here](https://leggedrobotics.github.io/ocs2/installation.html).
 
 2. Create a new catkin workspace:
 
@@ -43,5 +43,21 @@ For more information refer to the project's [Documentation Page](https://leggedr
 3. Clone this repository:
 
     ```bash
+    # Navigate to the directory of src
+    # Do not forget to change <...> parts
+    cd <directory_to_ws>/<catkin_ws_name>/src
     git clone https://github.com/abhyudit309/ocs2.git
+    ```
+
+4. Build and run the unit tests:
+
+    ```bash
+    # Build it
+    catkin build ocs2
+
+    # Source it
+    source <directory_to_ws>/<catkin_ws_name>/devel/setup.bash
+
+    # run tests
+    catkin run_tests ocs2
     ```
