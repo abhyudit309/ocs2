@@ -61,3 +61,23 @@ For more information refer to the project's [Documentation Page](https://leggedr
     # run tests
     catkin run_tests ocs2
     ```
+
+## Usage
+
+* To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper:
+
+   ```bash
+   roslaunch ocs2_mobile_manipulator_ros manipulator_kinova_gen3_robotiq_2f_85.launch
+   ```
+
+* To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper on a holonomic mobile base:
+
+   ```bash
+   roslaunch ocs2_mobile_manipulator_ros manipulator_kinova_gen3_robotiq_2f_85_platform_v1.launch
+   ```
+
+* To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper on a mobile base with 4 caster wheels:
+
+   ```bash
+   roslaunch ocs2_mobile_manipulator_ros manipulator_kinova_gen3_robotiq_2f_85_platform_v2.launch
+   ```
