@@ -24,17 +24,24 @@ For more information refer to the project's [Documentation Page](https://leggedr
 
 ## Setup
 
-* Install all prerequisites for OCS2 by following the instructions [here](https://leggedrobotics.github.io/ocs2/installation.html)
-* Create a new catkin workspace
-  ```bash
-  # Create the directories
-  # Do not forget to change <...> parts
-  mkdir -p <directory_to_ws>/<catkin_ws_name>/src
-  cd <directory_to_ws>/<catkin_ws_name>/
+1. Install all prerequisites for OCS2 by following the instructions [here](https://leggedrobotics.github.io/ocs2/installation.html)
+
+2. Create a new catkin workspace:
+
+   ```bash
+   # Create the directories
+   # Do not forget to change <...> parts
+   mkdir -p <directory_to_ws>/<catkin_ws_name>/src
+   cd <directory_to_ws>/<catkin_ws_name>/
   
-  # Initialize the catkin workspace
-  catkin init
-  catkin config --extend /opt/ros/noetic
-  catkin config -DCMAKE_BUILD_TYPE=RelWithDebInfo
-  ```
-* Clone this repository
+   # Initialize the catkin workspace
+   catkin init
+   catkin config --extend /opt/ros/noetic
+   catkin config -DCMAKE_BUILD_TYPE=RelWithDebInfo
+   ```
+
+3. Clone this repository:
+
+    ```bash
+    git clone https://github.com/abhyudit309/ocs2.git
+    ```
