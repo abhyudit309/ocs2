@@ -44,25 +44,12 @@ For more information refer to the project's [Documentation Page](https://leggedr
     ```bash
     # Navigate to the directory of src
     cd ~/ocs2_ws/src
+
+    # Clone ocs2
     git clone https://github.com/abhyudit309/ocs2.git
     ```
 
-4. Build and run the unit tests:
-
-    ```bash
-    # Build it
-    catkin build ocs2
-
-    # Source it
-    source ~/ocs2_ws/devel/setup.bash
-
-    # run tests
-    catkin run_tests ocs2
-    ```
-
-## Dependencies
-
-1. For rigid multi-body dynamics library and self collision support clone [Pinocchio](https://github.com/stack-of-tasks/pinocchio) and [HPP-FCL](https://github.com/humanoid-path-planner/hpp-fcl) into your workspace:
+4. For rigid multi-body dynamics library and self collision support clone [Pinocchio](https://github.com/stack-of-tasks/pinocchio) and [HPP-FCL](https://github.com/humanoid-path-planner/hpp-fcl) into your workspace:
 
     ```bash
     # Navigate to the directory of src
@@ -75,7 +62,7 @@ For more information refer to the project's [Documentation Page](https://leggedr
     git clone --recurse-submodules https://github.com/leggedrobotics/hpp-fcl.git
     ```
 
-2. For various robotic assets used clone the following [repository](https://github.com/abhyudit309/ocs2_robotic_assets) in your workspace:
+5. For various robotic assets used clone the following [repository](https://github.com/abhyudit309/ocs2_robotic_assets) in your workspace:
 
     ```bash
     # Navigate to the directory of src
@@ -83,6 +70,22 @@ For more information refer to the project's [Documentation Page](https://leggedr
     
     # Clone ocs_robotic_assets
     git clone https://github.com/abhyudit309/ocs2_robotic_assets.git
+    ```    
+
+6. Build and run the unit tests:
+
+    ```bash
+    # Navigate to the directory of src
+    cd ~/ocs2_ws/src
+    
+    # Build it
+    catkin build ocs2
+
+    # Source it
+    source ~/ocs2_ws/devel/setup.bash
+
+    # run tests
+    catkin run_tests ocs2
     ```
    
 ## Usage
