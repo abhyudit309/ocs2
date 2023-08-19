@@ -91,7 +91,7 @@ For more information refer to the project's [Documentation Page](https://leggedr
    
 ## Usage
 
-All launch files are in [`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch`](`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch`). Firstly, navigate to the catkin workspace:
+All launch files are in [`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch`](ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch). Firstly, navigate to the catkin workspace:
 
  ```bash
  cd ~/ocs2_ws/src
