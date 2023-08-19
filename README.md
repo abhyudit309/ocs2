@@ -1,7 +1,8 @@
 # OCS2 Toolbox
 
 ## Summary
-OCS2 is a C++ toolbox tailored for Optimal Control for Switched Systems (OCS2). The toolbox provides an efficient implementation of the following algorithms
+
+OCS2 is a C++ toolbox tailored for Optimal Control for Switched Systems (OCS2). The toolbox provides an efficient implementation of the following algorithms:
 
 * SLQ: Continuous-time domin DDP
 * iLQR: Discrete-time domain DDP
@@ -10,13 +11,13 @@ OCS2 is a C++ toolbox tailored for Optimal Control for Switched Systems (OCS2). 
 
 Here it is used for the control of a:
 
-1. Fixed 7 DOF Kinova Gen3 arm with a Robotiq 2F-85 gripper
+* Fixed 7 DOF Kinova Gen3 arm with a Robotiq 2F-85 gripper
 
-![manipulator](https://i.imgur.com/d6nmfcN.gif)
+  ![manipulator](https://i.imgur.com/d6nmfcN.gif)
 
-2. The same arm on a base with 4 caster wheels.
+* The same arm on a base with 4 caster wheels.
 
-![mobile manipulator](https://i.imgur.com/f6akezz.gif)
+  ![mobile manipulator](https://i.imgur.com/f6akezz.gif)
 
 OCS2 handles general path constraints through Augmented Lagrangian or relaxed barrier methods. To facilitate the application of OCS2 in robotic tasks, it provides the user with additional tools to set up the system dynamics (such as kinematic or dynamic models) and cost/constraints (such as self-collision avoidance and end-effector tracking) from a URDF model. The library also provides an automatic differentiation tool to calculate derivatives of the system dynamics, constraints, and cost. To facilitate its deployment on robotic platforms, the OCS2 provides tools for ROS interfaces. The toolbox’s efficient and numerically stable implementations in conjunction with its user-friendly interface have paved the way for employing it on numerous robotic applications with limited onboard computation power.
 
@@ -42,17 +43,17 @@ For more information refer to the project's [Documentation Page](https://leggedr
 3. Clone this repository:
 
     ```bash
-    # Navigate to the directory of src
+    # Navigate to the src directory
     cd ~/ocs2_ws/src
 
     # Clone ocs2
     git clone https://github.com/abhyudit309/ocs2.git
     ```
 
-4. For rigid multi-body dynamics library and self collision support clone [Pinocchio](https://github.com/stack-of-tasks/pinocchio) and [HPP-FCL](https://github.com/humanoid-path-planner/hpp-fcl) into your workspace:
+4. For rigid multi-body dynamics library and self collision support, clone [Pinocchio](https://github.com/stack-of-tasks/pinocchio) and [HPP-FCL](https://github.com/humanoid-path-planner/hpp-fcl) into your workspace:
 
     ```bash
-    # Navigate to the directory of src
+    # Navigate to the src directory
     cd ~/ocs2_ws/src
     
     # Clone pinocchio
@@ -62,10 +63,10 @@ For more information refer to the project's [Documentation Page](https://leggedr
     git clone --recurse-submodules https://github.com/leggedrobotics/hpp-fcl.git
     ```
 
-5. For various robotic assets clone the following [repository](https://github.com/abhyudit309/ocs2_robotic_assets) into your workspace:
+5. For various robotic assets, clone the following [repository](https://github.com/abhyudit309/ocs2_robotic_assets) into your workspace:
 
     ```bash
-    # Navigate to the directory of src
+    # Navigate to the src directory
     cd ~/ocs2_ws/src
     
     # Clone ocs_robotic_assets
@@ -75,7 +76,7 @@ For more information refer to the project's [Documentation Page](https://leggedr
 6. Build and run the unit tests:
 
     ```bash
-    # Navigate to the directory of src
+    # Navigate to the src directory
     cd ~/ocs2_ws/src
     
     # Build
@@ -89,7 +90,9 @@ For more information refer to the project's [Documentation Page](https://leggedr
     ```
    
 ## Usage
-All launch files are in [`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch`](`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch`). Firstly, navigate to your catkin workspace:
+
+All launch files are in [`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch`](`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch`). Firstly, navigate to the catkin workspace:
+
  ```bash
  cd ~/ocs2_ws/src
  ```
@@ -101,7 +104,7 @@ Then
    roslaunch ocs2_mobile_manipulator_ros manipulator_kinova_gen3_robotiq_2f_85.launch
    ```
 
-* To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper on a holonomic mobile base:
+* To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper on a unicycle base:
 
    ```bash
    roslaunch ocs2_mobile_manipulator_ros manipulator_kinova_gen3_robotiq_2f_85_platform_v1.launch
