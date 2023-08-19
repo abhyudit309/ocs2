@@ -30,9 +30,8 @@ For more information refer to the project's [Documentation Page](https://leggedr
 
    ```bash
    # Create the directories
-   # Do not forget to change <...> parts
-   mkdir -p <directory_to_ws>/<catkin_ws_name>/src
-   cd <directory_to_ws>/<catkin_ws_name>/
+   mkdir -p ~/ocs2_ws/src
+   cd ~/ocs2_ws/
   
    # Initialize the catkin workspace
    catkin init
@@ -44,8 +43,7 @@ For more information refer to the project's [Documentation Page](https://leggedr
 
     ```bash
     # Navigate to the directory of src
-    # Do not forget to change <...> parts
-    cd <directory_to_ws>/<catkin_ws_name>/src
+    cd ~/ocs2_ws/src
     git clone https://github.com/abhyudit309/ocs2.git
     ```
 
@@ -56,11 +54,34 @@ For more information refer to the project's [Documentation Page](https://leggedr
     catkin build ocs2
 
     # Source it
-    source <directory_to_ws>/<catkin_ws_name>/devel/setup.bash
+    source ~/ocs2_ws/devel/setup.bash
 
     # run tests
     catkin run_tests ocs2
     ```
+
+## Dependencies
+
+1. For rigid multi-body dynamics library and self collision support clone [Pinocchio](https://github.com/stack-of-tasks/pinocchio) and [HPP-FCL](https://github.com/humanoid-path-planner/hpp-fcl) into your workspace:
+
+    ```bash
+    # Navigate to the directory of src
+    cd ~/ocs2_ws/src
+    # Clone pinocchio
+    git clone --recurse-submodules https://github.com/leggedrobotics/pinocchio.git
+    # Clone hpp-fcl
+    git clone --recurse-submodules https://github.com/leggedrobotics/hpp-fcl.git
+    ```
+
+2. For various robotic assets used clone the following repository in your workspace:
+
+    ```bash
+    # Navigate to the directory of src
+    cd ~/ocs2_ws/src
+    # Clone ocs_robotic_assets
+    git clone https://github.com/abhyudit309/ocs2_robotic_assets.git
+    ```
+   
 
 ## Usage
 
