@@ -67,22 +67,24 @@ For more information refer to the project's [Documentation Page](https://leggedr
     ```bash
     # Navigate to the directory of src
     cd ~/ocs2_ws/src
+    
     # Clone pinocchio
     git clone --recurse-submodules https://github.com/leggedrobotics/pinocchio.git
+    
     # Clone hpp-fcl
     git clone --recurse-submodules https://github.com/leggedrobotics/hpp-fcl.git
     ```
 
-2. For various robotic assets used clone the following repository in your workspace:
+2. For various robotic assets used clone the following [repository](https://github.com/abhyudit309/ocs2_robotic_assets) in your workspace:
 
     ```bash
     # Navigate to the directory of src
     cd ~/ocs2_ws/src
+    
     # Clone ocs_robotic_assets
     git clone https://github.com/abhyudit309/ocs2_robotic_assets.git
     ```
    
-
 ## Usage
 
 * To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper:
