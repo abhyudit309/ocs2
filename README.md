@@ -62,7 +62,7 @@ For more information refer to the project's [Documentation Page](https://leggedr
     git clone --recurse-submodules https://github.com/leggedrobotics/hpp-fcl.git
     ```
 
-5. For various robotic assets used clone the following [repository](https://github.com/abhyudit309/ocs2_robotic_assets) in your workspace:
+5. For various robotic assets clone the following [repository](https://github.com/abhyudit309/ocs2_robotic_assets) in your workspace:
 
     ```bash
     # Navigate to the directory of src
@@ -78,10 +78,10 @@ For more information refer to the project's [Documentation Page](https://leggedr
     # Navigate to the directory of src
     cd ~/ocs2_ws/src
     
-    # Build it
+    # Build
     catkin build ocs2
 
-    # Source it
+    # Source
     source ~/ocs2_ws/devel/setup.bash
 
     # run tests
