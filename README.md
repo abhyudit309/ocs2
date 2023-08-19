@@ -44,12 +44,17 @@ For more information refer to the project's [Documentation Page](https://leggedr
     ```bash
     # Navigate to the directory of src
     cd ~/ocs2_ws/src
+
+    # Clone ocs2
     git clone https://github.com/abhyudit309/ocs2.git
     ```
 
 4. Build and run the unit tests:
 
     ```bash
+    # Navigate to the directory of src
+    cd ~/ocs2_ws/src
+    
     # Build it
     catkin build ocs2
 
