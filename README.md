@@ -62,7 +62,7 @@ For more information refer to the project's [Documentation Page](https://leggedr
     git clone --recurse-submodules https://github.com/leggedrobotics/hpp-fcl.git
     ```
 
-5. For various robotic assets clone the following [repository](https://github.com/abhyudit309/ocs2_robotic_assets) in your workspace:
+5. For various robotic assets clone the following [repository](https://github.com/abhyudit309/ocs2_robotic_assets) into your workspace:
 
     ```bash
     # Navigate to the directory of src
@@ -89,7 +89,12 @@ For more information refer to the project's [Documentation Page](https://leggedr
     ```
    
 ## Usage
+All launch files are in [`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch`](`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/launch`). Firstly, navigate to your catkin workspace:
+ ```bash
+ cd ~/ocs2_ws/src
+ ```
 
+Then
 * To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper:
 
    ```bash
