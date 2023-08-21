@@ -18,11 +18,11 @@ There are 2 main packages:
 
 In our case, OCS2 is used for the control of:
 
-* A fixed base 7 DOF Kinova Gen3 arm with a Robotiq 2F-85 gripper. The state consists of the 7 joint angles and 7 joint velocities. The control inputs are the 7 joint accelerations. The objective of the task is to track a 6 DOF end-effector pose. The joint position, velocity and acceleration limits are included in the constraint of the optimal control problem.
+* A fixed base 7 DoF Kinova Gen3 arm with a Robotiq 2F-85 gripper. The state consists of the 7 joint angles and 7 joint velocities. The control inputs are the 7 joint accelerations. The objective of the task is to track a 6 DoF end-effector pose. The joint position, velocity and acceleration limits are included in the constraint of the optimal control problem.
 
   ![manipulator](https://i.imgur.com/d6nmfcN.gif)
 
-* The same arm on a mobile base with 4 caster wheels. Here the state consists of the 7 joint angles, 7 joint velocities, the 2D position and heading of the mobile base, and the heading angle and spin angle of each of the 4 wheels. The control inputs are the 7 joint accelerations, the 2D velocity and rate of change of heading of the base, and the rate of change of heading and spin angle of each wheel. The objective of the task is again to track a 6 DOF end-effector pose. The joint position, velocity, acceleration and wheel rotation and velocity limits are included in the constraint of the optimal control problem. There are additional constraints as each wheel rolls on the ground, which are specified in [`ocs2_robotic_examples/ocs2_mobile_manipulator/src/constraint/NoSlipConstraintCppAd.cpp`](ocs2_robotic_examples/ocs2_mobile_manipulator/src/constraint/NoSlipConstraintCppAd.cpp).
+* The same arm on a mobile base with 4 caster wheels. Here the state consists of the 7 joint angles, 7 joint velocities, the 2D position and heading of the mobile base, and the heading angle and spin angle of each of the 4 wheels. The control inputs are the 7 joint accelerations, the 2D velocity and rate of change of heading of the base, and the rate of change of heading and spin angle of each wheel. The objective of the task is again to track a 6 DoF end-effector pose. The joint position, velocity, acceleration and wheel rotation and velocity limits are included in the constraint of the optimal control problem. There are additional constraints as each wheel rolls on the ground, which are specified in [`ocs2_robotic_examples/ocs2_mobile_manipulator/src/constraint/NoSlipConstraintCppAd.cpp`](ocs2_robotic_examples/ocs2_mobile_manipulator/src/constraint/NoSlipConstraintCppAd.cpp).
 
   ![mobile manipulator](https://i.imgur.com/f6akezz.gif)
 
@@ -101,19 +101,19 @@ All launch files are in [`ocs2_robotic_examples/ocs2_mobile_manipulator_ros/laun
  ```
 
 Then
-* To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper:
+* To run the 7 DoF Kinova Gen 3 arm with the Robotiq-2F-85 gripper:
 
    ```bash
    roslaunch ocs2_mobile_manipulator_ros manipulator_kinova_gen3_robotiq_2f_85.launch
    ```
 
-* To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper on a unicycle base:
+* To run the 7 DoF Kinova Gen 3 arm with the Robotiq-2F-85 gripper on a unicycle base:
 
    ```bash
    roslaunch ocs2_mobile_manipulator_ros manipulator_kinova_gen3_robotiq_2f_85_platform_v1.launch
    ```
 
-* To run the 7 DOF Kinova Gen 3 arm with the Robotiq-2F-85 gripper on a mobile base with 4 caster wheels:
+* To run the 7 DoF Kinova Gen 3 arm with the Robotiq-2F-85 gripper on a mobile base with 4 caster wheels:
 
    ```bash
    roslaunch ocs2_mobile_manipulator_ros manipulator_kinova_gen3_robotiq_2f_85_platform_v2.launch
