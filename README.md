@@ -13,8 +13,8 @@ OCS2 handles general path constraints through Augmented Lagrangian or relaxed ba
 
 There are 2 main packages:
 
-1. [`ocs_robotic_examples/ocs2_mobile_manipulator`](ocs_robotic_examples/ocs2_mobile_manipulator): This provides the library with the robot-specific MPC implementation.
-2. [`ocs_robotic_examples/ocs2_mobile_manipulator_ros`](ocs_robotic_examples/ocs2_mobile_manipulator_ros): This wraps around the MPC implementation with ROS to define ROS nodes.
+1. [`ocs2_robotic_examples/ocs2_mobile_manipulator`](ocs2_robotic_examples/ocs2_mobile_manipulator): This provides the library with the robot-specific MPC implementation.
+2. [`ocs2_robotic_examples/ocs2_mobile_manipulator_ros`](ocs2_robotic_examples/ocs2_mobile_manipulator_ros): This wraps around the MPC implementation with ROS to define ROS nodes.
 
 In our case, OCS2 is used for the control of a:
 
