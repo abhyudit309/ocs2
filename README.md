@@ -9,19 +9,22 @@ OCS2 is a C++ toolbox tailored for Optimal Control for Switched Systems (OCS2). 
 * SQP: Multiple-shooting algorithm based on HPIPM
 * PISOC: Path integral stochatic optimal control
 
-Here it is used for the control of a:
+OCS2 handles general path constraints through Augmented Lagrangian or relaxed barrier methods. To facilitate the application of OCS2 in robotic tasks, it provides the user with additional tools to set up the system dynamics (such as kinematic or dynamic models) and cost/constraints (such as self-collision avoidance and end-effector tracking) from a URDF model. The library also provides an automatic differentiation tool to calculate derivatives of the system dynamics, constraints, and cost. To facilitate its deployment on robotic platforms, the OCS2 provides tools for ROS interfaces. The toolbox’s efficient and numerically stable implementations in conjunction with its user-friendly interface have paved the way for employing it on numerous robotic applications with limited onboard computation power.
 
-* Fixed 7 DOF Kinova Gen3 arm with a Robotiq 2F-85 gripper
+There are 2 main packages:
+
+1. [`ocs_robotic_examples/ocs2_mobile_manipulator`](ocs_robotic_examples/ocs2_mobile_manipulator): This provides the library with the robot-specific MPC implementation.
+2. [`ocs_robotic_examples/ocs2_mobile_manipulator_ros`](ocs_robotic_examples/ocs2_mobile_manipulator_ros): This wraps around the MPC implementation with ROS to define ROS nodes.
+
+In our case, OCS2 is used for the control of a:
+
+* A fixed base 7 DOF Kinova Gen3 arm with a Robotiq 2F-85 gripper
 
   ![manipulator](https://i.imgur.com/d6nmfcN.gif)
 
-* The same arm on a base with 4 caster wheels.
+* The same arm on a mobile base with 4 caster wheels:
 
   ![mobile manipulator](https://i.imgur.com/f6akezz.gif)
-
-OCS2 handles general path constraints through Augmented Lagrangian or relaxed barrier methods. To facilitate the application of OCS2 in robotic tasks, it provides the user with additional tools to set up the system dynamics (such as kinematic or dynamic models) and cost/constraints (such as self-collision avoidance and end-effector tracking) from a URDF model. The library also provides an automatic differentiation tool to calculate derivatives of the system dynamics, constraints, and cost. To facilitate its deployment on robotic platforms, the OCS2 provides tools for ROS interfaces. The toolbox’s efficient and numerically stable implementations in conjunction with its user-friendly interface have paved the way for employing it on numerous robotic applications with limited onboard computation power.
-
-For more information refer to the project's [Documentation Page](https://leggedrobotics.github.io/ocs2/) 
 
 ## Setup
 
