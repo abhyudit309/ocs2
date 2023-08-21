@@ -16,13 +16,13 @@ There are 2 main packages:
 1. [`ocs2_robotic_examples/ocs2_mobile_manipulator`](ocs2_robotic_examples/ocs2_mobile_manipulator): This provides the library with the robot-specific MPC implementation.
 2. [`ocs2_robotic_examples/ocs2_mobile_manipulator_ros`](ocs2_robotic_examples/ocs2_mobile_manipulator_ros): This wraps around the MPC implementation with ROS to define ROS nodes.
 
-In our case, OCS2 is used for the control of a:
+In our case, OCS2 is used for the control of:
 
-* A fixed base 7 DOF Kinova Gen3 arm with a Robotiq 2F-85 gripper
+* A fixed base 7 DOF Kinova Gen3 arm with a Robotiq 2F-85 gripper. The state consists of the 7 joint angles and 7 joint velocities. The control inputs are the 7 joint accelerations. The objective of the task is to track a 6 DOF end-effector pose. The joint position, velocity and acceleration limits are included in the constraint of the optimal control problem.
 
   ![manipulator](https://i.imgur.com/d6nmfcN.gif)
 
-* The same arm on a mobile base with 4 caster wheels:
+* The same arm on a mobile base with 4 caster wheels. Here the state consists of the 7 joint angles, 7 joint velocities, the 2D position and heading of the mobile base, and the heading angle and spin angle of each of the 4 wheels. The control inputs are the 7 joint accelerations, the 2D velocity and rate of change of heading of the base, and the rate of change of heading and spin angle of each wheel. The objective of the task is again to track a 6 DOF end-effector pose. The joint position, velocity, acceleration and wheel rotation and velocity limits are included in the constraint of the optimal control problem. There are additional constraints as each wheel rolls on the ground, and they are specified in [`ocs2_robotic_examples/ocs2_mobile_manipulator/src/constraint/NoSlipConstraintCppAd.cpp`](ocs2_robotic_examples/ocs2_mobile_manipulator/src/constraint/NoSlipConstraintCppAd.cpp).
 
   ![mobile manipulator](https://i.imgur.com/f6akezz.gif)
 
